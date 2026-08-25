@@ -3,31 +3,38 @@
 ## Sobre o projecto
 
 Este projecto documenta a implementação de uma infraestrutura de rede
-empresarial virtualizada para a organização TeckAlfa.
+empresarial virtualizada para a organização **TeckAlfa**.
 
-O laboratório utiliza VMware, pfSense, Ubuntu Server, Ubuntu Desktop e
-Samba Active Directory.
+O laboratório foi desenvolvido com recurso a **VMware, pfSense,
+Ubuntu Server, Ubuntu Desktop e Samba Active Directory**.
+
+O objectivo é implementar uma infraestrutura funcional com serviços de
+rede, autenticação centralizada, partilhas de ficheiros, controlo de
+acessos, administração remota, VPN e correio electrónico interno.
+
+---
 
 ## Arquitectura
 
-A infraestrutura é constituída por:
+A infraestrutura é constituída pelos seguintes componentes:
 
-- pfSense;
-- DC01;
-- desktop01;
-- Samba Active Directory;
-- DNS;
-- Kerberos;
-- SMB;
-- ACLs;
-- Cockpit;
-- VPN;
-- correio electrónico interno.
+- **pfSense** — Firewall, gateway, routing, NAT e VPN
+- **DC01** — Ubuntu Server e controlador de domínio
+- **desktop01** — Estação de trabalho Ubuntu
+- **Samba Active Directory** — Gestão centralizada do domínio
+- **DNS** — Resolução de nomes interna
+- **Kerberos** — Autenticação
+- **SMB/CIFS** — Partilha de ficheiros
+- **ACLs** — Controlo de acessos
+- **Cockpit** — Administração através de interface Web
+- **VPN** — Acesso remoto seguro
+- **Mail Server** — Serviço de correio electrónico interno
+
+---
 
 ## Rede
 
+### Rede interna
+
 ```text
-Rede interna: 192.168.10.0/24
-Gateway:      192.168.10.1
-DC01:         192.168.10.10
-desktop01:    192.168.10.128
+192.168.10.0/24
