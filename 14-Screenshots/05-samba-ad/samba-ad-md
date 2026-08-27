@@ -1,1 +1,261 @@
+# 05 — Samba AD
+
+## 5.1 Objetivo
+
+O Samba Active Directory Domain Controller (Samba AD DC) é utilizado na infraestrutura TeckAlfa para disponibilizar os serviços de domínio e permitir a gestão centralizada de utilizadores, grupos, computadores e recursos da rede.
+
+O domínio utilizado no laboratório é:
+
+`AD.TECKALFA.PT`
+
+O controlador de domínio é:
+
+`dc01.ad.teckalfa.pt`
+
+O endereço IPv4 do controlador de domínio é:
+
+`192.168.10.10`
+
+---
+
+## 5.2 Verificação da configuração do Samba
+
+A configuração do Samba pode ser validada através do comando:
+
+```bash
+testparm
+```
+
+Este comando permite verificar a sintaxe e a validade do ficheiro de configuração do Samba.
+
+### Comando utilizado
+
+```bash
+testparm
+```
+
+### Resultado
+
+O resultado deste comando deverá ser analisado para confirmar que a configuração do Samba não apresenta erros de sintaxe.
+
+### Captura
+
+![Validação da configuração do Samba](./capturas/05-testparm.png)
+
+---
+
+## 5.3 Informação do domínio
+
+A informação relativa ao domínio Active Directory pode ser consultada através da ferramenta `samba-tool`.
+
+O comando utilizado é:
+
+```bash
+samba-tool domain info 127.0.0.1
+```
+
+Este comando permite consultar informações sobre o domínio e o controlador de domínio local.
+
+### Comando utilizado
+
+```bash
+samba-tool domain info 127.0.0.1
+```
+
+### Informação esperada
+
+A informação apresentada deverá permitir confirmar a existência do domínio:
+
+`AD.TECKALFA.PT`
+
+e a identificação do controlador de domínio:
+
+`dc01.ad.teckalfa.pt`
+
+### Captura
+
+![Informação do domínio Samba AD](./capturas/05-domain-info.png)
+
+---
+
+## 5.4 Verificação do domínio
+
+A ferramenta `samba-tool` também permite consultar informações relativas ao domínio Active Directory.
+
+Para consultar a informação do domínio pode ser utilizado:
+
+```bash
+samba-tool domain level show
+```
+
+Este comando apresenta os níveis funcionais configurados no domínio e no forest.
+
+### Comando utilizado
+
+```bash
+samba-tool domain level show
+```
+
+### Captura
+
+![Níveis funcionais do domínio](./capturas/05-domain-level.png)
+
+---
+
+## 5.5 Estado do serviço Samba AD DC
+
+O serviço responsável pelo funcionamento do controlador de domínio é o:
+
+`samba-ad-dc`
+
+O estado do serviço é verificado através de:
+
+```bash
+sudo systemctl status samba-ad-dc
+```
+
+O serviço encontra-se configurado para funcionar como controlador de domínio Active Directory.
+
+### Estado esperado
+
+```text
+Active: active (running)
+```
+
+Este estado confirma que o serviço Samba AD DC está activo no servidor DC01.
+
+### Captura
+
+![Estado do serviço Samba AD DC](./capturas/05-samba-service.png)
+
+---
+
+## 5.6 Verificação dos utilizadores do domínio
+
+A ferramenta `samba-tool` permite consultar os utilizadores existentes no Active Directory.
+
+O comando utilizado é:
+
+```bash
+samba-tool user list
+```
+
+Este comando apresenta a lista de contas de utilizador existentes no domínio.
+
+Entre as contas utilizadas na infraestrutura encontra-se a conta administrativa:
+
+`Administrator`
+
+e as contas de utilizadores criadas para a organização.
+
+### Captura
+
+![Utilizadores do domínio](./capturas/05-user-list.png)
+
+---
+
+## 5.7 Verificação dos grupos do domínio
+
+Os grupos de segurança existentes no domínio podem ser consultados através de:
+
+```bash
+samba-tool group list
+```
+
+Na infraestrutura TeckAlfa foram criados grupos destinados à organização dos acessos por departamento.
+
+Entre os grupos utilizados encontram-se:
+
+* `GG_RH`
+* `GG_DIRECAO`
+* `GG_IT`
+* `GG_FINANCEIRO`
+* `GG_COMERCIAL`
+
+A utilização destes grupos permite posteriormente aplicar permissões de acesso aos recursos partilhados de acordo com a função dos utilizadores.
+
+### Captura
+
+![Grupos do domínio](./capturas/05-group-list.png)
+
+---
+
+## 5.8 Estrutura do Active Directory
+
+O Samba AD permite organizar os objectos do domínio através de unidades organizacionais (OUs).
+
+A estrutura criada no laboratório permite organizar os utilizadores e restantes objectos de acordo com a estrutura da organização.
+
+A consulta das unidades organizacionais pode ser realizada através de:
+
+```bash
+samba-tool ou list
+```
+
+### Captura
+
+![Unidades organizacionais](./capturas/05-ou-list.png)
+
+---
+
+## 5.9 Componentes principais do Samba AD
+
+A configuração do Samba AD integra vários serviços essenciais ao funcionamento do domínio.
+
+| Serviço        | Função                                           |
+| -------------- | ------------------------------------------------ |
+| Samba AD DC    | Controlador de domínio                           |
+| DNS            | Resolução de nomes e localização dos serviços AD |
+| Kerberos       | Autenticação                                     |
+| LDAP           | Directório do Active Directory                   |
+| SMB            | Partilha de ficheiros e recursos                 |
+| RPC            | Comunicação e administração de serviços          |
+| Global Catalog | Pesquisa de objectos do Active Directory         |
+
+Estes serviços trabalham em conjunto para fornecer as funcionalidades de um ambiente Active Directory.
+
+---
+
+## 5.10 Resumo da configuração
+
+| Parâmetro     | Valor                  |
+| ------------- | ---------------------- |
+| Tecnologia    | Samba Active Directory |
+| Domínio       | `AD.TECKALFA.PT`       |
+| FQDN do DC    | `dc01.ad.teckalfa.pt`  |
+| Endereço IPv4 | `192.168.10.10`        |
+| Função        | Domain Controller      |
+| DNS           | Samba DNS              |
+| Autenticação  | Kerberos               |
+| Directório    | LDAP                   |
+| Partilhas     | SMB                    |
+| Serviço       | `samba-ad-dc`          |
+
+---
+
+## 5.11 Evidências recolhidas
+
+| Código | Evidência             | Comando                            |
+| ------ | --------------------- | ---------------------------------- |
+| 05.1   | Configuração do Samba | `testparm`                         |
+| 05.2   | Informação do domínio | `samba-tool domain info 127.0.0.1` |
+| 05.3   | Nível funcional       | `samba-tool domain level show`     |
+| 05.4   | Estado do serviço     | `systemctl status samba-ad-dc`     |
+| 05.5   | Utilizadores          | `samba-tool user list`             |
+| 05.6   | Grupos                | `samba-tool group list`            |
+| 05.7   | OUs                   | `samba-tool ou list`               |
+
+---
+
+## 5.12 Conclusão
+
+O Samba Active Directory constitui o serviço central de gestão de identidades da infraestrutura TeckAlfa.
+
+O servidor DC01 funciona como controlador de domínio do domínio `AD.TECKALFA.PT`, disponibilizando os serviços necessários à autenticação e gestão dos recursos da rede.
+
+Através das ferramentas `testparm` e `samba-tool` é possível validar a configuração do Samba, consultar a informação do domínio e administrar os principais objectos do Active Directory.
+
+A validação dos utilizadores, grupos e unidades organizacionais permite ainda confirmar a estrutura lógica criada para a organização.
+
+As funcionalidades de DNS e Kerberos serão analisadas de forma mais detalhada no capítulo seguinte, **06 — DNS/Kerberos**.
 
