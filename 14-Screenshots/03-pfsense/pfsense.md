@@ -31,9 +31,6 @@ A interface WAN encontra-se configurada para obter o endereço IPv4 através de 
 
 A atribuição do endereço `192.168.198.137` confirma que a interface WAN recebeu correctamente um endereço IPv4.
 
-### Captura
-
-![Configuração da WAN](./capturas/03-pfsense-wan.png)
 
 ## 3.4 Configuração da LAN
 
@@ -47,17 +44,11 @@ A interface LAN constitui a rede interna do laboratório.
 
 O endereço `192.168.10.1` é utilizado como gateway pelos equipamentos da rede interna.
 
-### Captura
-
-![Configuração da LAN](./capturas/03-pfsense-lan.png)
 
 ## 3.5 Gateway
 
 O gateway utilizado para a saída da rede interna é disponibilizado através da interface WAN do pfSense.
 
-### Captura
-
-![Gateway](./capturas/03-pfsense-gateway.png)
 
 ## 3.6 NAT
 
@@ -65,9 +56,7 @@ O pfSense realiza NAT para permitir que os equipamentos da rede interna tenham a
 
 A configuração de NAT foi mantida de acordo com a configuração do laboratório.
 
-### Captura
 
-![NAT](./capturas/03-pfsense-nat.png)
 
 ## 3.7 Conclusão
 
